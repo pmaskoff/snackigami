@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(cuid())
+  createdAt    DateTime     @default(now())
+  
+  submissions  Submission[]
+  memberships  GroupMember[]
+}
+
+model Group {
+  id          String        @id @default(cuid())
+  name        String
+  inviteCode  String        @unique
+  createdAt   DateTime      @default(now())
+  
+  members     GroupMember[]
+  submissions Submission[]
+}
+
+model GroupMember {
+  id        String   @id @default(cuid())
+  userId    String
+  groupId   String
+  joinedAt  DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id])
+  
+  @@unique([userId, groupId])
+}
+
+model Combo {
+  id          String   @id @default(cuid())
+  hash        String   @unique
+  itemList    String   // JSON string of sorted items
+  firstSeenAt DateTime @default(now())
+  seenCount   Int      @default(0)
+  
+  submissions Submission[]
+}
+
+model Submission {
+  id             String   @id @default(cuid())
+  userId         String
+  groupId        String?
+  comboId        String
+  imageUrl       String?
+  confirmedItems String   // JSON string of items submitted
+  createdAt      DateTime @default(now())
+  
+  user   User   @relation(fields: [userId], references: [id])
+  group  Group? @relation(fields: [groupId], references: [id])
+  combo  Combo  @relation(fields: [comboId], references: [id])
+}
