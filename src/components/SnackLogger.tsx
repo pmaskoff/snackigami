@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { getApiUrl } from '@/lib/api';
 
 interface RevealData {
     comboId: string;
@@ -53,7 +54,7 @@ export default function SnackLogger() {
         setIsSubmitting(true);
 
         try {
-            const res = await fetch('/api/log', {
+            const res = await fetch(`${getApiUrl()}/api/log`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

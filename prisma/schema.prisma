@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -38,6 +39,15 @@ model GroupMember {
   group     Group    @relation(fields: [groupId], references: [id])
   
   @@unique([userId, groupId])
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  username  String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Combo {

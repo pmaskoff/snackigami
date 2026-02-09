@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import BottomNav from '@/components/BottomNav';
 
 export const metadata: Metadata = {
   title: 'Snackigami',
@@ -14,9 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className="container">
+        <main className="container" style={{ paddingBottom: '80px' }}>
           {children}
         </main>
+        <BottomNav />
       </body>
     </html>
   );

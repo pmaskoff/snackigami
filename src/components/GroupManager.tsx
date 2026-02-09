@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getApiUrl } from '@/lib/api';
 
 export default function GroupManager() {
     const [groupId, setGroupId] = useState<string | null>(null);
@@ -29,7 +30,7 @@ export default function GroupManager() {
     const handleCreate = async () => {
         if (!inputName || !userId) return;
         try {
-            const res = await fetch('/api/groups', {
+            const res = await fetch(`${getApiUrl()}/api/groups`, {
                 method: 'POST',
                 body: JSON.stringify({ action: 'create', userId, name: inputName })
             });
@@ -47,7 +48,7 @@ export default function GroupManager() {
     const handleJoin = async () => {
         if (!inputCode || !userId) return;
         try {
-            const res = await fetch('/api/groups', {
+            const res = await fetch(`${getApiUrl()}/api/groups`, {
                 method: 'POST',
                 body: JSON.stringify({ action: 'join', userId, inviteCode: inputCode })
             });
