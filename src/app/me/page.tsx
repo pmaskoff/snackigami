@@ -1,5 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import AuthComponent from '@/components/AuthComponent';
+
+export const dynamic = 'force-dynamic';
 
 export default async function MePage() {
     const supabase = await createClient();

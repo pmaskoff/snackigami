@@ -1,5 +1,7 @@
 import { getGlobalLeaderboard, getRecentGlobalFirsts } from '@/app/actions/leaderboard';
 
+export const dynamic = 'force-dynamic';
+
 export default async function RankPage() {
     const leaderboard = await getGlobalLeaderboard();
     const recentFirsts = await getRecentGlobalFirsts();
